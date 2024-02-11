@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { Board, BoardStatus } from './boards.model';
 import { v1 as uuid } from 'uuid';
 import { CreateBoardDto } from './dto/create-board.dto';
@@ -14,7 +14,7 @@ export class BoardsService {
   createBoard(createBoardDto: CreateBoardDto) {
     const { title, description } = createBoardDto;
     const board: Board = {
-      id: uuid,
+      id: uuid(),
       title,
       description,
       status: BoardStatus.PUBLIC,
@@ -25,10 +25,16 @@ export class BoardsService {
   }
 
   getBoardById(id: string): Board {
-    return this.boards.find((board) => board.id === id);
+    const foundBoard = this.boards.find((board) => board.id === id);
+
+    if (!foundBoard) {
+      throw new NotFoundException(`Could not found a board with id : ${id}`);
+    }
+    return foundBoard;
   }
 
   deleteBoard(id: string): void {
+    const foundBoard = this.getBoardById(id);
     this.boards = this.boards.filter((board) => board.id !== id);
   }
 
