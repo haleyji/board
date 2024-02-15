@@ -1,0 +1,17 @@
+version: '3.4'
+
+services:
+  my-app-db:
+    container_name: "Postgres-test"
+    image: postgres
+    ports:
+      - "5432:5432"
+    expose:
+      - "5432"
+    volumes:
+      - "./pgdata:/var/lib/postgresql/data"
+    environment:
+      - "POSTGRES_DB=Postgres-test"
+      - "POSTGRES_USER=root"
+      - "POSTGRES_PASSWORD=0000"
+      - "PGDATA=/var/lib/postgresql/data/pgdata"
