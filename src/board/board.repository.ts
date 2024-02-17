@@ -1,8 +1,8 @@
 import { DataSource, Repository } from 'typeorm';
-import { Board } from './boards.entity';
+import { Board } from './board.entity';
 import { Injectable } from '@nestjs/common';
 import { CreateBoardDto } from './dto/create-board.dto';
-import { BoardStatus } from './boards-stauts.enum';
+import { BoardStatus } from './board-stauts.enum';
 
 @Injectable()
 export class BoardRepository extends Repository<Board> {

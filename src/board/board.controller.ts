@@ -1,16 +1,16 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 // eslint-disable-next-line prettier/prettier
 import { Body, Controller, Delete, Get, Param, ParseIntPipe, Patch, Post, Put, UsePipes, ValidationPipe } from '@nestjs/common';
-import { BoardsService } from './boards.service';
-import { BoardStatus } from './boards-stauts.enum';
+import { BoardService } from './board.service';
+import { BoardStatus } from './board-stauts.enum';
 import { CreateBoardDto } from './dto/create-board.dto';
 import { pipe } from 'rxjs';
 import { BoardStatusValidationPipe } from './pipe/board-status-validation.pipe';
-import { Board } from './boards.entity';
+import { Board } from './board.entity';
 
 @Controller('boards')
-export class BoardsController {
-  constructor(private boardService: BoardsService) {}
+export class BoardController {
+  constructor(private boardService: BoardService) {}
 
   @Get('/:id')
   getBoardbyId(@Param('id') id: number): Promise<Board> {

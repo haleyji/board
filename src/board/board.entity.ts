@@ -1,5 +1,5 @@
 import { BaseEntity, Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
-import { BoardStatus } from './boards-stauts.enum';
+import { BoardStatus } from './board-stauts.enum';
 
 @Entity()
 export class Board extends BaseEntity {
