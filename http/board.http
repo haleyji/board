@@ -1,4 +1,4 @@
-### create board but not valid
+### create board
 POST http://localhost:3000/boards HTTP/1.1
 content-type: application/json
 
