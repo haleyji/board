@@ -1,8 +1,25 @@
-### create user
+@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImhhbGV5LXRlc3QiLCJpYXQiOjE3MDgzNDk2MTAsImV4cCI6MTcwODM1MzIxMH0.gnfucc-zVMHvXEbXJqZm_dkRPlHscvODP4htVQ62C9Q
+@token2 = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImhhbGV5LXRlc3QxIiwiaWF0IjoxNzA4MzUxNzk5LCJleHAiOjE3MDgzNTUzOTl9.iJauOlM2aD_eu10EPyyap44_2b6YpzOtZq8nLxFL3zE
 POST http://localhost:3000/auth/signup HTTP/1.1
 content-type: application/json
 
 {
-    "username": "haley",
-    "password": "0325"
+    "username": "haley-test1",
+    "password": "haleyhaleyhaley"
 }
+
+### get all users
+GET http://localhost:3000/auth HTTP/1.1
+
+### login user
+POST http://localhost:3000/auth/signin HTTP/1.1
+content-type: application/json
+
+{
+    "username": "haley-test1",
+    "password": "haleyhaleyhaley"
+}
+
+### do somethin with token
+POST http://localhost:3000/auth/test HTTP/1.1
+Authorization: Bearer {{token}}

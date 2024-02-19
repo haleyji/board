@@ -6,6 +6,7 @@ import { CreateBoardDto } from './dto/create-board.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { BoardRepository } from './board.repository';
 import { Board } from './board.entity';
+import { User } from 'src/auth/user.entity';
 @Injectable()
 export class BoardService {
   constructor(
@@ -22,12 +23,12 @@ export class BoardService {
     return found;
   }
 
-  createBoard(createBoardDto: CreateBoardDto): Promise<Board> {
-    return this.boardRepository.createBoard(createBoardDto);
+  createBoard(createBoardDto: CreateBoardDto, user: User): Promise<Board> {
+    return this.boardRepository.createBoard(createBoardDto, user);
   }
 
-  async deleteBoard(id: number): Promise<void> {
-    const result = await this.boardRepository.delete(id);
+  async deleteBoard(id: number, user: User): Promise<void> {
+    const result = await this.boardRepository.delete({ id, user });
 
     if (result.affected === 0) {
       throw new NotFoundException(`Can't find board with id ${id}`);
@@ -43,38 +44,11 @@ export class BoardService {
     return board;
   }
 
-  async getBoards(): Promise<Board[]> {
-    return this.boardRepository.find();
+  async getBoards(user: User): Promise<Board[]> {
+    const query = this.boardRepository.createQueryBuilder('board');
+    query.where('board.userId = :userId', { userId: user.id });
+
+    const boards = await query.getMany();
+    return boards;
   }
-  //   private boards: Board[] = [];
-  //   getAllBoards(): Board[] {
-  //     return this.boards;
-  //   }
-  //   createBoard(createBoardDto: CreateBoardDto) {
-  //     const { title, description } = createBoardDto;
-  //     const board: Board = {
-  //       id: uuid(),
-  //       title,
-  //       description,
-  //       status: BoardStatus.PUBLIC,
-  //     };
-  //     this.boards.push(board);
-  //     return board;
-  //   }
-  //   getBoardById(id: string): Board {
-  //     const foundBoard = this.boards.find((board) => board.id === id);
-  //     if (!foundBoard) {
-  //       throw new NotFoundException(`Could not found a board with id : ${id}`);
-  //     }
-  //     return foundBoard;
-  //   }
-  //   deleteBoard(id: string): void {
-  //     const foundBoard = this.getBoardById(id);
-  //     this.boards = this.boards.filter((board) => board.id !== id);
-  //   }
-  //   updateBoardStatus(id: string, status: BoardStatus): Board {
-  //     const board = this.getBoardById(id);
-  //     board.status = status;
-  //     return board;
-  //   }
 }

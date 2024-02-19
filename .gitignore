@@ -4,6 +4,7 @@
 /build
 /pgdata
 /env
+/config
 
 # Logs
 logs
